@@ -11,7 +11,7 @@ on:
     - cron: '0 2 * * *'
 
 env:
-  PYTHON_VERSION: 3.9
+  PYTHON_VERSION: "3.11"
   HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Install Dependencies
@@ -53,7 +53,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Install Dependencies
@@ -71,7 +71,7 @@ jobs:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: python predictive_maintenance_mlops/model_building/prep.py
     - name: Upload Data Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: prepared-data
         path: |
@@ -91,7 +91,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Install ML Dependencies
@@ -99,7 +99,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas numpy scikit-learn xgboost mlflow huggingface-hub joblib
     - name: Download Data Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: prepared-data
     - name: Train Models
@@ -108,7 +108,7 @@ jobs:
         MLFLOW_TRACKING_URI: "file:./mlruns"
       run: python predictive_maintenance_mlops/model_building/model_training.py
     - name: Upload Model Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: trained-models
         path: |
@@ -127,17 +127,17 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Install Dependencies
       run: pip install pandas numpy scikit-learn joblib
     - name: Download Model Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: trained-models
     - name: Download Data Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: prepared-data
     - name: Model Validation Tests
@@ -168,7 +168,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Install Deployment Dependencies
@@ -194,7 +194,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     - name: Download Training Report
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: trained-models
     - name: Generate Performance Report
@@ -210,7 +210,7 @@ jobs:
         print('Report generated')
         "
     - name: Upload Performance Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: performance-report
         path: performance_report.md
@@ -234,7 +234,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
     - name: Download Performance Report
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: performance-report
     - name: Commit Performance Report
