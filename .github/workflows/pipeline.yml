@@ -246,7 +246,12 @@ jobs:
     - name: Commit Performance Report
       run: |
         mkdir -p reports
-        mv performance_report.md reports/latest_performance_report.md
+        if [[ -f performance_report.md ]]; then
+          mv performance_report.md reports/latest_performance_report.md
+        else
+          echo "No performance report generated, skipping commit"
+          exit 0
+        fi
         if [[ -n $(git status --porcelain) ]]; then
           git add reports/latest_performance_report.md
           git commit -m "Auto-update: Performance report $(date +'%Y-%m-%d %H:%M:%S')"
