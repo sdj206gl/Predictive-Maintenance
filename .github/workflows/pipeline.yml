@@ -215,6 +215,7 @@ jobs:
         "
     - name: Upload Performance Report
       uses: actions/upload-artifact@v4
+      continue-on-error: true
       with:
         name: performance-report
         path: performance_report.md
@@ -239,6 +240,7 @@ jobs:
         git config --local user.name "GitHub Action"
     - name: Download Performance Report
       uses: actions/download-artifact@v4
+      continue-on-error: true
       with:
         name: performance-report
     - name: Commit Performance Report
