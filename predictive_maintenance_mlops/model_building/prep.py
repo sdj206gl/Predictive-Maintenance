@@ -12,12 +12,30 @@ print(f"Dataset shape: {df.shape}")
 
 print("\n=== Data Cleaning ===")
 
+# Remove unnecessary columns (unnamed index columns if any)
+unnamed_cols = [col for col in df.columns if 'Unnamed' in str(col) or col.strip() == '']
+if unnamed_cols:
+    df.drop(columns=unnamed_cols, inplace=True)
+    print(f"Dropped unnecessary columns: {unnamed_cols}")
+else:
+    print("No unnecessary columns found.")
+
 # Handle missing values
 numeric_columns = df.select_dtypes(include=[np.number]).columns
 for col in numeric_columns:
     if df[col].isnull().sum() > 0:
         df[col].fillna(df[col].median(), inplace=True)
 print("Missing values handled")
+
+# Remove duplicate rows if any
+dupes = df.duplicated().sum()
+if dupes > 0:
+    df.drop_duplicates(inplace=True)
+    print(f"Removed {dupes} duplicate rows")
+else:
+    print("No duplicate rows found")
+
+print(f"Final dataset shape after cleaning: {df.shape}")
 
 # Define target variable
 target_col = "Engine Condition"

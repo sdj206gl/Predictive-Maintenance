@@ -246,7 +246,7 @@ jobs:
     - name: Commit Performance Report
       run: |
         mkdir -p reports
-        if [[ -f performance_report.md ]]; then
+                if [[ -f performance_report.md ]]; then
           mv performance_report.md reports/latest_performance_report.md
         else
           echo "No performance report generated, skipping commit"
